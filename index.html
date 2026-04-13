@@ -1,0 +1,69 @@
+```html id="carritoreal"
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Carrito</title>
+<style>
+body { font-family: Arial; }
+button { margin:5px; }
+</style>
+</head>
+<body>
+
+<h2>🛒 Carrito de compras</h2>
+
+<h3>Productos</h3>
+
+<button onclick="agregar('Camiseta',1500)">Camiseta $1500</button><br>
+<button onclick="agregar('Zapatillas',5000)">Zapatillas $5000</button><br>
+<button onclick="agregar('Gorra',1200)">Gorra $1200</button>
+
+<hr>
+
+<h3>Carrito</h3>
+<ul id="lista"></ul>
+<p>Total: $<span id="total">0</span></p>
+
+<button onclick="vaciar()">Vaciar carrito</button>
+
+<script>
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+function guardar(){
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
+function agregar(nombre, precio){
+  carrito.push({nombre, precio});
+  guardar();
+  mostrar();
+}
+
+function mostrar(){
+  let lista = document.getElementById("lista");
+  lista.innerHTML = "";
+  let total = 0;
+
+  carrito.forEach(p => {
+    let li = document.createElement("li");
+    li.textContent = p.nombre + " - $" + p.precio;
+    lista.appendChild(li);
+    total += p.precio;
+  });
+
+  document.getElementById("total").textContent = total;
+}
+
+function vaciar(){
+  carrito = [];
+  guardar();
+  mostrar();
+}
+
+mostrar();
+</script>
+
+</body>
+</html>
+```
